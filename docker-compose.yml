@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:14.5
+    environment: &db-env
+      POSTGRES_USER: postgresusername
+      POSTGRES_PASSWORD: postgrespassword
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  web:
+    image: riggraz/astuto:latest
+    environment:
+      <<: *db-env
+      BASE_URL: http://localhost:3000
+      SECRET_KEY_BASE: 222BB277FC8A8DD27C140CB32A6B786EB3CA1C41D69BB6E5842B296947855341
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    
+volumes:
+  dbdata: 
